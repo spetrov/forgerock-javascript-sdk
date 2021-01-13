@@ -23,6 +23,7 @@
   const tree = url.searchParams.get('tree') || 'UsernamePassword';
 
   console.log('Configure the SDK');
+  appendMessageToDom('Configure the SDK');
   forgerock.Config.set({
     middleware: [
       (req, action, next) => {
@@ -30,11 +31,13 @@
           case 'START_AUTHENTICATE':
             if (action.payload.type === 'service' && typeof action.payload.tree === 'string') {
               console.log('Starting authentication with service');
+              appendMessageToDom('Starting authentication with service');
             }
             break;
           case 'AUTHENTICATE':
             if (action.payload.type === 'service' && typeof action.payload.tree === 'string') {
               console.log('Continuing authentication with service');
+              appendMessageToDom('Continuing authentication with service');
             }
             break;
         }
@@ -55,6 +58,7 @@
   }
 
   console.log('Initiate first step with `undefined`');
+  appendMessageToDom('Initiate first step with undefined');
   // Wrapping in setTimeout to give the test time to bind listener to console.log
   setTimeout(function () {
     rxjs
@@ -62,6 +66,7 @@
       .pipe(
         rxMergeMap((step) => {
           console.log('Set values on auth tree callbacks');
+          appendMessageToDom('Set values on auth tree callbacks');
           step.getCallbackOfType('NameCallback').setName(un);
           step.getCallbackOfType('PasswordCallback').setPassword(pw);
           return forgerock.FRAuth.next(step);
@@ -73,7 +78,8 @@
               throw new Error('Auth_Error');
             } else if (step.payload.tokenId) {
               console.log('Basic login successful');
-              document.body.innerHTML = '<p class="Logged_In">Login successful</p>';
+              appendMessageToDom('Basic login successful');
+              // document.body.innerHTML = '<p class="Logged_In">Login successful</p>';
             } else {
               throw new Error('Something went wrong.');
             }
@@ -87,7 +93,8 @@
         rxMap((response) => {
           if (response.ok) {
             console.log('Logout successful');
-            document.body.innerHTML = '<p class="Logged_Out">Logout successful</p>';
+            appendMessageToDom('Logout successful');
+            //document.body.innerHTML = '<p class="Logged_Out">Logout successful</p>';
           } else {
             throw new Error('Logout_Error');
           }
@@ -96,7 +103,8 @@
           () => {},
           (err) => {
             console.log(`Error: ${err.message}`);
-            document.body.innerHTML = `<p class="${err.message}">${err.message}</p>`;
+            appendMessageToDom(`Error: ${err.message}`, `${err.message}`);
+            //document.body.innerHTML = `<p class="${err.message}">${err.message}</p>`;
           },
           () => {},
         ),
@@ -106,7 +114,8 @@
         (err) => {},
         () => {
           console.log('Test script complete');
-          document.body.innerHTML = `<p class="Test_Complete">Test script complete</p>`;
+          appendMessageToDom('Test script complete', 'Test_Complete');
+          //document.body.innerHTML = `<p class="Test_Complete">Test script complete</p>`;
         },
       );
   }, 250);

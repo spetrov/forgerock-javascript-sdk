@@ -29,7 +29,8 @@
     "test:e2e:live": "LIVE=true jest --testMatch='<rootDir>/tests/e2e/**/*.lc.test.ts' --config=./tests/jest.e2e.config.js",
     "test:integration": "jest --testMatch='<rootDir>/tests/integration/**/*.test.ts' --config=./tests/jest.basic.config.js",
     "test:unit": "jest --testMatch='<rootDir>/src/**/*.test.ts' --config=./tests/jest.basic.config.js --env=./tests/jest.env.config.js",
-    "watch": "webpack -w --env.DEV=yes"
+    "watch": "webpack -w --env.DEV=yes",
+    "test:e2e:cbt": "jest --testMatch='<rootDir>/tests/e2e/**/*.cbt.test.js' --runInBand"
   },
   "husky": {
     "hooks": {
@@ -83,7 +84,9 @@
     "uuid": "^8.3.0",
     "watch": "^1.0.2",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "chromedriver": "^86.0.0",
+    "selenium-webdriver": "^4.0.0-alpha.7"
   },
   "dependencies": {}
 }
